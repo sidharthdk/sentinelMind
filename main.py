@@ -224,7 +224,8 @@ def risk_level(score: float) -> str:
 def load_alerts() -> pd.DataFrame:
     if not ALERTS_PATH.exists():
         return pd.DataFrame()
-    df = pd.read_csv(ALERTS_PATH)
+    df = pd.read_csv(ALERTS_PATH, dtype={"user_id": str})
+    df["user_id"] = df["user_id"].fillna("UNKNOWN")
     # Normalise top_features column (stored as string repr of list)
     if "top_features" in df.columns:
         df["top_features"] = df["top_features"].apply(
