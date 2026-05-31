@@ -28,6 +28,7 @@ import pandas as pd
 import numpy as np
 
 from fastapi import FastAPI, HTTPException, Query
+from fastapi.responses import RedirectResponse
 from fastapi.middleware.cors import CORSMiddleware
 from pydantic import BaseModel, Field
 
@@ -235,6 +236,11 @@ def load_alerts() -> pd.DataFrame:
 
 
 # ─── ROUTES ───────────────────────────────────────────────────────────────────
+
+@app.get("/", include_in_schema=False)
+def index():
+    return RedirectResponse(url="/docs")
+
 
 @app.get("/health", tags=["system"])
 def health():
